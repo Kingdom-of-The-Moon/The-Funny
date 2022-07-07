@@ -1,0 +1,50 @@
+plugins {
+	id 'fabric-loom' version '0.12-SNAPSHOT'
+	id 'maven-publish'
+	id 'org.quiltmc.quilt-mappings-on-loom' version '4.2.0'
+}
+
+java_version = project.java_version
+archivesBaseName = project.archives_base_name
+version = project.mod_version + "+" + project.minecraft_version
+group = project.maven_group
+
+repositories {}
+
+dependencies {
+	// Fabric
+	minecraft "com.mojang:minecraft:$minecraft_version"
+	mappings loom.layered {
+		addLayer(quiltMappings.mappings("org.quiltmc:quilt-mappings:$minecraft_version+build.+:v2"))
+		officialMojangMappings()
+	}
+	modImplementation "net.fabricmc:fabric-loader:$loader_version"
+}
+
+processResources {
+	Map<String, Object> properties = new HashMap<>()
+
+	properties.put("version", version)
+	properties.put("java_version", java_version)
+	properties.put("minecraft_version", String.valueOf(minecraft_version).split("-")[0] + "-")
+	properties.put("loader_version", loader_version)
+
+	properties.forEach((k, v) -> inputs.property(k, v.toString()))
+	filesMatching("fabric.mod.json") {
+		expand properties
+	}
+}
+
+tasks.withType(JavaCompile) {
+	options.encoding = "UTF-8"
+}
+
+java {
+	withSourcesJar()
+}
+
+jar {
+	from("LICENSE") {
+		rename { String.valueOf("$archivesBaseName").toUpperCase() + "_${it}"}
+	}
+}

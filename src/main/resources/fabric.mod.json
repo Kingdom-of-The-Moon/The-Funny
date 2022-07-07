@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "the_funny",
+  "version": "${version}",
+
+  "name": "The Funny",
+  "description": "yes",
+  "authors": [
+    "Francy-Chan"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Kingdom-Of-The-Moon/The-Funny/",
+    "issues": "https://github.com/Kingdom-Of-The-Moon/The-Funny/issues"
+  },
+
+  "license": "LGPL-2.1",
+  "icon": "assets/the_funny/icon.png",
+
+  "environment": "client",
+  "entrypoints": {
+    "client": []
+  },
+  "mixins": [
+    "the_funny.mixins.json"
+  ],
+
+  "depends": {
+    "java": ">=${java_version}",
+    "minecraft": ">=${minecraft_version}",
+    "fabricloader": ">=${loader_version}"
+  }
+}
